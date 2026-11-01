@@ -3,7 +3,7 @@ import { CustomerService } from './customer.service.js';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard.js';
 import { CreateCustomerDto } from './dto/create-customer.dto.js';
 
-@Controller('customer')
+@Controller('customers')
 @UseGuards(JwtAuthGuard)
 export class CustomerController {
     constructor(private readonly customerService: CustomerService) {}
