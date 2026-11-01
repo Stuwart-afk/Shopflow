@@ -44,5 +44,5 @@ model Vehicle {
   updated_at    DateTime  @updatedAt  @map("updated_at")
 
   customer Customer @relation(fields: [customer_id], references: [id])
-  @@map("vechicles")
+  @@map("vehicles")
 }
