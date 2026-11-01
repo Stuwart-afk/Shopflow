@@ -1,4 +1,8 @@
 Web → Admin: admin@admin.com / admin12345
-Web → Advisor: advisor@advisor.com / brandon123
-Mobile → Customer: stuart@customer.com / brandon123
-Mobile → Mechanic: mike@mechanic.com / mechanic123
+Web → Advisor: advisor@advisor.com / advisor123
+
+Mobile → Customer: quagmire@customer.com / customer123
+Mobile → Customer: brian@customer.com / customer123
+
+Mobile → Mechanic1: stuwart@mechanic.com / mechanic123
+Mobile → Mechanic2: stuwie@mechanic.com / mechanic123
