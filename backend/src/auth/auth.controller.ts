@@ -11,7 +11,7 @@ import {
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
-import { JwtGuard } from './guards/jwt.guard.js';
+import { JwtAuthGuard  } from './guards/jwt.guard.js';
 import { RolesGuard } from './guards/roles.guard.js';
 import { Roles } from './decorators/roles.decorator.js';
 import { Role } from './enums/role.enum.js';
@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
-  @UseGuards(JwtGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('profile')
   getProfile(@Request() req: any) {
     return {
@@ -41,7 +41,7 @@ export class AuthController {
     };
   }
 
-  @UseGuards(JwtGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Get('admin/dashboard')
   getAdminDashboard(@Request() req: any) {
@@ -51,7 +51,7 @@ export class AuthController {
     };
   }
 
-  @UseGuards(JwtGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.MECHANIC)
   @Get('mechanic/dashboard')
   getMechanicDashboard(@Request() req: any) {
@@ -61,7 +61,7 @@ export class AuthController {
     };
   }
 
-  @UseGuards(JwtGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.CUSTOMER)
   @Get('customer/dashboard')
   getCustomerDashboard(@Request() req: any) {
