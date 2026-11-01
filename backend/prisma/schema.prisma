@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String   @map("password_hash")
+  role          String   @default("customer")
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now()) @map("created_at")
+  updated_at    DateTime @updatedAt @map("updated_at")
+
+  customer Customer?
+
+  @@map("users")
+}
+
+model Customer {
+  id          String    @id @default(uuid())
+  user_id     String    @unique @map("user_id")
+  phone       String?   
+  created_at  DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime  @updatedAt  @map("updated_at")
+
+  user  User  @relation(fields: [user_id], references: [id])
+  vehicles Vehicle[]
+  @@map("customers")
+}
+
+model Vehicle {
+  id            String    @id @default(uuid())
+  customer_id   String    @map("customer_id")
+  plate_number  String    @unique @map("plate_number")
+  make          String
+  model         String
+  year          Int       
+  created_at    DateTime  @default(now())  @map("created_at")
+  updated_at    DateTime  @updatedAt  @map("updated_at")
+
+  customer Customer @relation(fields: [customer_id], references: [id])
+  @@map("vechicles")
+}
