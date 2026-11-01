@@ -1,6 +1,6 @@
 import { IsString, IsOptional, Matches} from "class-validator";
 
-export class CreateCustomer {
+export class CreateCustomerDto {
     @IsOptional()
     @IsString()
     phone: string;
