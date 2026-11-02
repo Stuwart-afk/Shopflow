@@ -1,7 +1,7 @@
-import { 
-    Controller, 
-    ForbiddenException, 
-    NotFoundException, 
+import {
+    Controller,
+    ForbiddenException,
+    NotFoundException,
     UseGuards,
     Req,
     Body,
@@ -10,8 +10,8 @@ import {
     Param,
     Put,
     Delete,
-    
- } from '@nestjs/common';
+
+} from '@nestjs/common';
 import { VehicleService } from './vehicle.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard.js';
@@ -23,11 +23,11 @@ export class VehicleController {
     constructor(
         private readonly vehicleService: VehicleService,
         private readonly prisma: PrismaService
-    ) {}
+    ) { }
 
-    private async getCustomerId(userId: string) : Promise<string> {
+    private async getCustomerId(userId: string): Promise<string> {
         const customer = await this.prisma.customer.findUnique({
-            where: {user_id: userId},
+            where: { user_id: userId },
         });
 
         if (!customer) {
@@ -36,13 +36,23 @@ export class VehicleController {
 
         return customer.id;
     }
+    @Get()
+    async getMyVehicles(@Req() req: any) {
+        const customerId = await this.getCustomerId(req.user.userId);
 
+        const vehicles = await this.vehicleService.getVehicleByCustomer(customerId);
+
+        return {
+            data: vehicles,
+        };
+    }
     @Post()
     async createVehicle(@Req() req: any, @Body() dto: CreateVehicleDto) {
         const customerId = await this.getCustomerId(req.user.userId);
-        const vehicle = await this.vehicleService.getVehicleByCustomer(customerId);
+        const vehicle = await this.vehicleService.createVehicle(customerId,dto);
 
         return {
+            message: 'Vehicle Successfully Created.',
             data: vehicle,
         };
     }
@@ -65,7 +75,7 @@ export class VehicleController {
     ) {
         const customerId = await this.getCustomerId(req.user.userId);
         const vehicle = await this.vehicleService.updateVehicle(id, customerId, dto);
-        
+
         return {
             message: 'Vehicle updated successfully',
             data: vehicle,

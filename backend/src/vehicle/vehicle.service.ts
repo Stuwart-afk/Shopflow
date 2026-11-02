@@ -12,7 +12,7 @@ export class VehicleService {
         });
 
         if (existingPlate) {
-            throw new ConflictException('Plate number ${dto.plate_number} is already registed');
+            throw new ConflictException(`Plate number ${dto.plate_number} is already registed`);
         }
 
         const vehicle = await this.prisma.vehicle.create({
@@ -33,6 +33,8 @@ export class VehicleService {
             where: {customer_id: customerId},
             orderBy: {created_at: 'desc'}
         });
+
+        return vehicle;
     }
 
     async getVehicleById(vehicleId: string, customerId: string){
@@ -63,7 +65,7 @@ export class VehicleService {
                 });
                 
                 if (existingPlate) {
-                    throw new ConflictException('Plate number ${dto.plate_number} is already registered'
+                    throw new ConflictException(`Plate number ${dto.plate_number} is already registered`
                     );
                 }
             }
