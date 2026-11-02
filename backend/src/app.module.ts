@@ -6,10 +6,13 @@ import { AuthModule } from './auth/auth.module.js';
 import { CustomerController } from './customer/customer.controller.js';
 import { CustomerService } from './customer/customer.service.js';
 import { CustomerModule } from './customer/customer.module.js';
+import { VehicleController } from './vehicle/vehicle.controller.js';
+import { VehicleService } from './vehicle/vehicle.service.js';
+import { VehicleModule } from './vehicle/vehicle.module.js';
 
 @Module({
-  imports: [PrismaModule, AuthModule, CustomerModule],
-  controllers: [AppController, CustomerController],
-  providers: [AppService, CustomerService],
+  imports: [PrismaModule, AuthModule, CustomerModule, VehicleModule],
+  controllers: [AppController, CustomerController, VehicleController],
+  providers: [AppService, CustomerService, VehicleService],
 })
 export class AppModule {}

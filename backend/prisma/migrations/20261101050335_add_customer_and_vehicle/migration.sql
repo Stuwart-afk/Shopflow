@@ -24,7 +24,7 @@ CREATE TABLE "customers" (
 );
 
 -- CreateTable
-CREATE TABLE "vechicles" (
+CREATE TABLE "vehicles" (
     "id" TEXT NOT NULL,
     "customer_id" TEXT NOT NULL,
     "plate_number" TEXT NOT NULL,
