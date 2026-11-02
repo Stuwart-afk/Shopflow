@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shopflow_mobile/screens/customer_vehicles.dart';
 
 import 'login_screen.dart';
 import 'customer_dashboard.dart';
+import 'customer_vehicles.dart';
+import 'customer_profile.dart';
 
 class CustomerShell extends StatefulWidget {
   const CustomerShell({super.key});
@@ -14,18 +15,15 @@ class CustomerShell extends StatefulWidget {
 }
 
 class _CustomerShellState extends State<CustomerShell> {
-  // ── Which tab is currently showing ──────────────────────────
-  // 0 = Home   1 = Bookings   2 = Vehicles   3 = Updates
   int _currentTab = 0;
 
-  // ── The list of screens, one per tab ────────────────────────
-  // IndexedStack will show whichever one matches _currentTab.
-  // We use placeholders for tabs we haven't built yet.
-  late final List<Widget> _tabs = [
+  // Getter instead of late final — rebuilds on every hot reload
+  List<Widget> get _tabs => [
     const CustomerHome(),
     const _ComingSoonTab(title: 'Bookings'),
     const CustomerVehicles(),
     const _ComingSoonTab(title: 'Updates'),
+    const CustomerProfile(),
   ];
 
   void _openVehiclesTab() {
@@ -34,7 +32,6 @@ class _CustomerShellState extends State<CustomerShell> {
     });
   }
 
-  // ── Logout: clear storage and go back to login ──────────────
   Future<void> _logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -45,26 +42,16 @@ class _CustomerShellState extends State<CustomerShell> {
     );
   }
 
-  // ══════════════════════════════════════════════════════════════
-  //  BUILD
-  // ══════════════════════════════════════════════════════════════
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FA),
       appBar: _buildAppBar(),
-      body: IndexedStack(
-        // IndexedStack keeps ALL tabs alive in memory and just shows one.
-        // This preserves scroll position and avoids re-fetching data
-        // every time you switch tabs.
-        index: _currentTab,
-        children: _tabs,
-      ),
+      body: IndexedStack(index: _currentTab, children: _tabs),
       bottomNavigationBar: _buildBottomNav(),
     );
   }
 
-  // ── App bar (shared across all tabs) ────────────────────────
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
@@ -119,7 +106,6 @@ class _CustomerShellState extends State<CustomerShell> {
     );
   }
 
-  // ── Bottom nav (shared across all tabs) ─────────────────────
   Widget _buildBottomNav() {
     return Container(
       height: 64,
@@ -133,6 +119,7 @@ class _CustomerShellState extends State<CustomerShell> {
           _navItem(1, Icons.calendar_month_rounded, 'Bookings'),
           _navItem(2, Icons.directions_car_rounded, 'Vehicles'),
           _navItem(3, Icons.notifications_rounded, 'Updates'),
+          _navItem(4, Icons.person_rounded, 'Profile'),
         ],
       ),
     );
@@ -142,8 +129,6 @@ class _CustomerShellState extends State<CustomerShell> {
     final isActive = _currentTab == index;
     return Expanded(
       child: GestureDetector(
-        // behavior: opaque makes the WHOLE expanded area tappable,
-        // not just the pixels where the icon and text are drawn.
         behavior: HitTestBehavior.opaque,
         onTap: () => setState(() => _currentTab = index),
         child: Column(
@@ -174,9 +159,6 @@ class _CustomerShellState extends State<CustomerShell> {
   }
 }
 
-// ──────────────────────────────────────────────────────────────
-//  Simple placeholder widget for tabs we haven't built yet
-// ──────────────────────────────────────────────────────────────
 class _ComingSoonTab extends StatelessWidget {
   final String title;
   const _ComingSoonTab({required this.title});
@@ -187,10 +169,10 @@ class _ComingSoonTab extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.construction_rounded,
             size: 48,
-            color: const Color(0xFF64748B),
+            color: Color(0xFF64748B),
           ),
           const SizedBox(height: 12),
           Text(
