@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
@@ -39,7 +40,7 @@ async function main() {
             name: 'Stuwart-Advisor',
             email: 'advisor@advisor.com',
             password_hash: advisorPassword,
-            role: 'advisor',
+            role: 'service_advisor',
         },
     });
     console.log(`✅ Service Advisor: ${advisor.email}`);
