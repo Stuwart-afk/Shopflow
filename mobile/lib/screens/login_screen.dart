@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'customer_shell.dart';
+import 'register_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user['role'] == 'customer') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const CustomerDashboard()),
+          MaterialPageRoute(builder: (_) => const CustomerShell()),
         );
       } else if (user['role'] == 'mechanic') {
         Navigator.pushReplacement(
@@ -462,27 +465,38 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 16),
 
                       // Create Account
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'New customer? ',
-                            style: TextStyle(
-                              color: Color(0xFF64748B),
-                              fontSize: 13,
-                              fontFamily: 'Inter',
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterScreen(),
+                              ),
+                            );
+                          },
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: "Don't have an account?  ",
+                                  style: TextStyle(
+                                    color: Color(0xFF64748B),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: 'Create now.',
+                                  style: TextStyle(
+                                    color: Color(0xFF245FF2),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            'Create an account',
-                            style: TextStyle(
-                              color: Color(0xFF245FF2),
-                              fontSize: 12,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
