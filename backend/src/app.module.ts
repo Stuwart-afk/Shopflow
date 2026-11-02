@@ -11,8 +11,21 @@ import { VehicleService } from './vehicle/vehicle.service.js';
 import { VehicleModule } from './vehicle/vehicle.module.js';
 
 @Module({
-  imports: [PrismaModule, AuthModule, CustomerModule, VehicleModule],
-  controllers: [AppController, CustomerController, VehicleController],
-  providers: [AppService, CustomerService, VehicleService],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    CustomerModule,
+    VehicleModule
+  ],
+  controllers: [
+    AppController, 
+    CustomerController, 
+    VehicleController
+  ],
+  providers: [
+    AppService, 
+    CustomerService, 
+    VehicleService
+  ],
 })
 export class AppModule {}
