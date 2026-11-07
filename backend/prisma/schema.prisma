@@ -46,3 +46,9 @@ model Vehicle {
   customer Customer @relation(fields: [customer_id], references: [id])
   @@map("vehicles")
 }
+
+model Advisor {
+  id            String        @id @default(uuid())
+  advisor_id    String        
+  @@map("advisor")
+}

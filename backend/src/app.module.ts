@@ -9,23 +9,27 @@ import { CustomerModule } from './customer/customer.module.js';
 import { VehicleController } from './vehicle/vehicle.controller.js';
 import { VehicleService } from './vehicle/vehicle.service.js';
 import { VehicleModule } from './vehicle/vehicle.module.js';
+import { AdvisorController } from './advisor/advisor.controller.js';
+import { AdvisorService } from './advisor/advisor.service.js';
+import { AdvisorModule } from './advisor/advisor.module.js';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     CustomerModule,
-    VehicleModule
+    VehicleModule,
+    AdvisorModule
   ],
   controllers: [
     AppController, 
     CustomerController, 
-    VehicleController
+    VehicleController, AdvisorController
   ],
   providers: [
     AppService, 
     CustomerService, 
-    VehicleService
+    VehicleService, AdvisorService
   ],
 })
 export class AppModule {}
