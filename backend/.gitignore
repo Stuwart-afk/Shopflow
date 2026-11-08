@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /build
-
+.env
 # TypeScript build cache
 *.tsbuildinfo
 
@@ -59,3 +59,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+
