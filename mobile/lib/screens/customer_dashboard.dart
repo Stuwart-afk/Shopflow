@@ -571,7 +571,7 @@ class _CustomerHomeState extends State<CustomerHome> {
   Widget _buildFooter() {
     return const Center(
       child: Text(
-        'Santos Auto Care · Mon–Sat, 8 AM–5 PM',
+        'Stuwart Auto Care · Mon–Sat, 8 AM–5 PM',
         textAlign: TextAlign.center,
         style: TextStyle(color: Color(0xFF64748B), fontSize: 10),
       ),
