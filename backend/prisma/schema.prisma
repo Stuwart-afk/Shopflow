@@ -18,6 +18,11 @@ model User {
 
   customer Customer?
 
+  advisorJobs     JobOrder[]  @relation("AdvisorJobs")
+  validatorJobs   JobOrder[]  @relation("ValidatorJobs")
+  mechanicJobs    JobOrder[]  @relation("MechanicJobs")
+  validatorReports  DiagnosisReport[] @relation("ValidatorReports")
+
   @@map("users")
 }
 
@@ -30,6 +35,7 @@ model Customer {
 
   user  User  @relation(fields: [user_id], references: [id])
   vehicles Vehicle[]
+  jobOrders JobOrder[]
   @@map("customers")
 }
 
@@ -44,11 +50,77 @@ model Vehicle {
   updated_at    DateTime  @updatedAt  @map("updated_at")
 
   customer Customer @relation(fields: [customer_id], references: [id])
+  jobOrders JobOrder[]
   @@map("vehicles")
 }
 
-model Advisor {
-  id            String        @id @default(uuid())
-  advisor_id    String        
-  @@map("advisor")
+model JobOrder {
+  id            String  @id @default(uuid())
+  customer_id   String
+  vehicle_id    String
+  advisor_id    String?
+  validator_id    String?
+  mechanic_id   String?
+
+  customer_complaint    String
+  status                JobStatus @default(PENDING)
+  estimated_cost        Decimal?  @db.Decimal(10,2)
+  final_cost            Decimal?  @db.Decimal(10,2)
+
+created_at              DateTime  @default(now())
+updated_at              DateTime  @updatedAt
+
+
+customer                Customer @relation(fields: [customer_id], references: [id])
+vehicle                 Vehicle @relation(fields: [vehicle_id], references: [id])
+advisor                 User? @relation("AdvisorJobs", fields: [advisor_id], references: [id])
+validator                 User? @relation("ValidatorJobs", fields: [validator_id], references: [id])
+mechanic               User? @relation("MechanicJobs", fields: [mechanic_id], references: [id])
+diagnosis             DiagnosisReport?
+
+@@map("job_orders")
+}
+
+model DiagnosisReport {
+  id  String @id @default(uuid())
+  job_order_id  String @unique
+  validator_id  String
+
+  findings  String
+  recommended_repairs String
+  priority  Priority @default(MEDIUM)
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  job_order JobOrder  @relation(fields: [job_order_id], references: [id])
+  validator User  @relation("ValidatorReports", fields: [validator_id], references: [id])
+
+  @@map("diagnosis_reports")
+}
+
+enum JobStatus {
+  PENDING
+  INSPECTING
+  DIAGNOSED
+  AWAITING_APPROVAL
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Role {
+  admin
+  service_advisor
+  validator
+  mechanic
+  customer
 }
