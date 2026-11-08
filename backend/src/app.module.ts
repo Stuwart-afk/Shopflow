@@ -12,6 +12,7 @@ import { VehicleModule } from './vehicle/vehicle.module.js';
 import { AdvisorController } from './advisor/advisor.controller.js';
 import { AdvisorService } from './advisor/advisor.service.js';
 import { AdvisorModule } from './advisor/advisor.module.js';
+import { ValidatorModule } from './validator/validator.module.js';
 
 @Module({
   imports: [
@@ -19,17 +20,20 @@ import { AdvisorModule } from './advisor/advisor.module.js';
     AuthModule,
     CustomerModule,
     VehicleModule,
-    AdvisorModule
+    AdvisorModule,
+    ValidatorModule
   ],
   controllers: [
     AppController, 
     CustomerController, 
-    VehicleController, AdvisorController
+    VehicleController, 
+    AdvisorController
   ],
   providers: [
     AppService, 
     CustomerService, 
-    VehicleService, AdvisorService
+    VehicleService, 
+    AdvisorService
   ],
 })
 export class AppModule {}

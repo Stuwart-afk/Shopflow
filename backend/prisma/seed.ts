@@ -23,7 +23,7 @@ async function main() {
     const advisorPassword = await bcrypt.hash('advisor123', saltRounds);
     const mechanicPassword = await bcrypt.hash('mechanic123', saltRounds);
     const customerPassword = await bcrypt.hash('customer123', saltRounds);
-
+    const validatorPassword = await bcrypt.hash('validator123', saltRounds);
 
     const admin = await prisma.user.create({
         data: {
@@ -44,6 +44,16 @@ async function main() {
         },
     });
     console.log(`✅ Service Advisor: ${advisor.email}`);
+
+    const validator = await prisma.user.create({
+        data: {
+            name: 'Stuwart-Validator',
+            email: 'validator@validator.com',
+            password_hash: validatorPassword,
+            role: 'validator',
+        },
+    });
+    console.log(`✅ Validator: ${validator.email}`);
 
     const mechanic1 = await prisma.user.create({
         data: {
